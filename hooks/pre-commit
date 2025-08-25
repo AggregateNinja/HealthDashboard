@@ -1,0 +1,31 @@
+#!/bin/sh
+# Git pre-commit hook to ensure package.json version has changed if modified
+
+PACKAGE_JSON="package.json"
+VERSION_FILE=".last_package_version"
+
+# Only check if package.json is staged
+if git diff --cached --name-only | grep -q "^$PACKAGE_JSON$"; then
+  # Extract the current version from package.json
+  CURRENT_VERSION=$(jq -r '.version' "$PACKAGE_JSON")
+
+  # If no previous version recorded, initialize it
+  if [ ! -f "$VERSION_FILE" ]; then
+    echo "$CURRENT_VERSION" > "$VERSION_FILE"
+    echo "Initialized version tracking with $CURRENT_VERSION"
+    exit 1
+  fi
+
+  PREV_VERSION=$(cat "$VERSION_FILE")
+
+  if [ "$CURRENT_VERSION" = "$PREV_VERSION" ]; then
+    echo "❌ Commit blocked: package.json version ($CURRENT_VERSION) has not been updated."
+    echo "➡ Please bump the version in package.json before committing."
+    exit 1
+  fi
+
+  echo "✅ package.json version updated from $PREV_VERSION → $CURRENT_VERSION"
+  echo "$CURRENT_VERSION" > "$VERSION_FILE"
+fi
+
+exit 0
