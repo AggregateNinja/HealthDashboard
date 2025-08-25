@@ -44,6 +44,14 @@ docker-compose up
 
 The website can then be viewed in a web browser with url http://localhost:4200
 
+## Git Hook
+
+A pre-commit hook is included the hooks directory to check that the package.json version has been updated before allowing a commit. 
+
+## CI Pipeline
+
+A Continuous Integration pipeline is used and can be found in .github/workflows/ci.yml. It triggers on push to the main branch, and fails if any step or job fails. 
+
 ## Development server
 
 To start a local development server, run:
