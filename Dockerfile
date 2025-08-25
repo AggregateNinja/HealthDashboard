@@ -18,7 +18,7 @@ RUN npm run build -- --configuration production
 FROM nginx:alpine
 
 # Copy built Angular files to Nginx's html folder
-COPY --from=build /app/dist/* /usr/share/nginx/html/
+COPY --from=build /app/dist/health-dashboard/browser /usr/share/nginx/html/
 
 # Copy custom Nginx config (optional, for Angular routes)
 # If you want Angular routing to work with deep links, include this:
