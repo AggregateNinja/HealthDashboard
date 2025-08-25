@@ -1,0 +1,8 @@
+.col-4 {
+    overflow-x: hidden;
+}
+
+#githubUrl {
+    width: 100%;
+    box-sizing: border-box;
+}
