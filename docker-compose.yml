@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  health-dashboard:
+    build: .
+    ports:
+      - "4200:80"
+    container_name: health-dashboard
+    restart: always
