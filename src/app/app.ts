@@ -22,9 +22,9 @@ export class App {
   
   
   protected readonly title = signal('health-dashboard');
-  githubUrl = 'https://api.github.com/repos/angular/angular';
-  owner = 'angular';
-  repo = 'angular';  
+  githubUrl = 'https://api.github.com/repos/AggregateNinja/HealthDashboard';
+  owner = 'AggregateNinja';
+  repo = 'HealthDashboard';  
   user: any;
   fileList = ['LICENSE', '.gitignore', 'README.md'];
   fileStatuses: Record<string, boolean> | null = null;
