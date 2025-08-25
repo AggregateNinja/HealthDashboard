@@ -2,6 +2,8 @@
 
 This project will complete various health checks on a GitHub repository, including if it has a LICENSE file, README.md file, .gitignore file, has had a commit within the last 6 months, and if it uses GitHub actions. Simply enter the URL for a GitHub repository and click the "Check Files" button to run the health check. 
 
+In order to keep things simple, a minimalist design was chosen, which uses Bootstrap for displaying webpage components using its grid system. 
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.0.
 
 ## Getting Started
