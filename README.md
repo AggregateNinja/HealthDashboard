@@ -15,7 +15,7 @@ git init
 git clone https://github.com/AggregateNinja/HealthDashboard.git
 ```
 
-Navigate to the root directory of project:
+Navigate to root directory of project:
 
 ```bash 
 cd /path/to/HealthDashboard
