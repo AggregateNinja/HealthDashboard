@@ -18,15 +18,15 @@ if echo "$STAGED_FILES" | grep -q "^$PACKAGE_JSON$"; then
   CURRENT_VERSION=$(git show :$PACKAGE_JSON | node -p "JSON.parse(require('fs').readFileSync(0)).version")
 
   if [ "$CURRENT_VERSION" = "$PREV_VERSION" ]; then
-    echo "❌ Commit blocked: package.json version ($CURRENT_VERSION) has not been updated."
-    echo "➡ Please bump the version in package.json before committing."
+    echo "Commit blocked: package.json version ($CURRENT_VERSION) has not been updated."
+    echo "Please bump the version in package.json before committing."
     exit 1
   else
-    echo "✅ package.json version updated: $PREV_VERSION → $CURRENT_VERSION"
+    echo "package.json version updated: $PREV_VERSION → $CURRENT_VERSION"
   fi
 else
-  echo "❌ Commit blocked: You changed files but did not bump the package.json version."
-  echo "➡ Please update package.json and stage it with a new version before committing."
+  echo "Commit blocked: You changed files but did not bump the package.json version."
+  echo "Please update package.json and stage it with a new version before committing."
   exit 1
 fi
 
