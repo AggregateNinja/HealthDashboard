@@ -6,7 +6,6 @@ In order to keep things simple, a minimalist design was chosen, which uses Boots
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.0.
 
-TEST    
 
 ## Getting Started
 
