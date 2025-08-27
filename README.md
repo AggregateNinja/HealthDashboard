@@ -61,7 +61,7 @@ Copy the file from the HealthDashboard/hooks directory to the .git/hooks directo
 
 ```bash
 cd /path/to/HealthDashboard/hooks
-cp pre-commit ./.git/hooks/pre-commit
+cp pre-commit ../.git/hooks/pre-commit
 cd ../.git/hooks
 chmod +x pre-commit
 ```
