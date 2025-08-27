@@ -28,3 +28,27 @@ jobs:
 
       - name: Build Angular app
         run: npm run build -- --configuration production
+
+      # ----------------------------
+      # Unit tests (PLACEHOLDER)
+      # ----------------------------
+      # Uncomment after tests are set up and passing locally.
+      # Requires a working "test" script (e.g., "ng test") and headless Chrome launcher.
+      #
+      # - name: Run unit tests (headless)
+      #   run: npm test -- --watch=false --browsers=ChromeHeadless
+
+      # ----------------------------------
+      # End-to-end tests (PLACEHOLDER)
+      # ----------------------------------
+      # Uncomment if you have e2e configured (Cypress or Playwright).
+      #
+      # - name: E2E tests (Cypress)
+      #   run: |
+      #     npx cypress install
+      #     npx cypress run
+      #
+      # - name: E2E tests (Playwright)
+      #   run: |
+      #     npx playwright install --with-deps
+      #     npx playwright test
