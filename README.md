@@ -8,26 +8,32 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Getting Started
 
-To install Angular, run:
-
-```bash 
-npm install -g @angular/cli
-```
-
-Create Angular app:
-
-```bash
-ng new health-dashboard
-```
-
-Navigate to health-dashboard directory and clone GitHub project files:
+Clone GitHub project files:
 
 ```bash
 git init
 git clone https://github.com/AggregateNinja/HealthDashboard.git
 ```
 
-For higher rate limits to the GitHub API, set your GitHub Personal Access Token in app/environments/environment.ts
+Navigate to root directory of project:
+
+```bash 
+cd /path/to/HealthDashboard
+```
+
+Install Angular:
+
+```bash 
+npm install -g @angular/cli
+```
+
+Install Angular dependencies:
+
+```bash
+npm install
+```
+
+For higher rate limits to the GitHub API, set your GitHub Personal Access Token in app/environments/environment.ts. This step is required in order to access the GitHub API:
 
 ```bash
 githubToken: 'YOUR_TOKEN_HERE'
