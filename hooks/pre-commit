@@ -1,31 +1,33 @@
 #!/bin/sh
-# Git pre-commit hook to ensure package.json version has changed if modified
+# Git pre-commit hook to require package.json version bump on ANY commit
 
 PACKAGE_JSON="package.json"
-VERSION_FILE=".last_package_version"
 
-# Only check if package.json is staged
-if git diff --cached --name-only | grep -q "^$PACKAGE_JSON$"; then
-  # Extract the current version from package.json
-  CURRENT_VERSION=$(jq -r '.version' "$PACKAGE_JSON")
+# Get list of staged files
+STAGED_FILES=$(git diff --cached --name-only)
 
-  # If no previous version recorded, initialize it
-  if [ ! -f "$VERSION_FILE" ]; then
-    echo "$CURRENT_VERSION" > "$VERSION_FILE"
-    echo "Initialized version tracking with $CURRENT_VERSION"
-    exit 1
-  fi
+# If no files are staged (shouldn’t happen in pre-commit), exit
+if [ -z "$STAGED_FILES" ]; then
+  exit 0
+fi
 
-  PREV_VERSION=$(cat "$VERSION_FILE")
+# Check if package.json is staged
+if echo "$STAGED_FILES" | grep -q "^$PACKAGE_JSON$"; then
+  # Compare version in HEAD vs staged using Node.js
+  PREV_VERSION=$(git show HEAD:$PACKAGE_JSON 2>/dev/null | node -p "JSON.parse(require('fs').readFileSync(0)).version")
+  CURRENT_VERSION=$(git show :$PACKAGE_JSON | node -p "JSON.parse(require('fs').readFileSync(0)).version")
 
   if [ "$CURRENT_VERSION" = "$PREV_VERSION" ]; then
     echo "❌ Commit blocked: package.json version ($CURRENT_VERSION) has not been updated."
     echo "➡ Please bump the version in package.json before committing."
     exit 1
+  else
+    echo "✅ package.json version updated: $PREV_VERSION → $CURRENT_VERSION"
   fi
-
-  echo "✅ package.json version updated from $PREV_VERSION → $CURRENT_VERSION"
-  echo "$CURRENT_VERSION" > "$VERSION_FILE"
+else
+  echo "❌ Commit blocked: You changed files but did not bump the package.json version."
+  echo "➡ Please update package.json and stage it with a new version before committing."
+  exit 1
 fi
 
 exit 0
