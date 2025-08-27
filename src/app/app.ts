@@ -1,10 +1,11 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 //import { RouterOutlet } from '@angular/router';
 import { GithubService } from './services/github.service';
 import { FormsModule } from '@angular/forms';
 //import { JsonPipe } from '@angular/common';
 import { NgIf, NgFor } from '@angular/common';
 import { forkJoin } from 'rxjs';
+import { GithubUser } from './models/github-user'; 
 
 @Component({
   selector: 'app-root',
@@ -25,18 +26,19 @@ export class App {
   githubUrl = 'https://api.github.com/repos/AggregateNinja/HealthDashboard';
   owner = 'AggregateNinja';
   repo = 'HealthDashboard';  
-  user: any;
+  user: GithubUser | null = null;
   fileList = ['LICENSE', '.gitignore', 'README.md'];
   fileStatuses: Record<string, boolean> | null = null;
   hasRecent: boolean | null = null;
   hasActions: boolean | null = null;
 
-  constructor(private github: GithubService) {}
+  private readonly github = inject(GithubService);
 
-  ngOnInit() {
-    //this.fetchUser();
-  }
+  //constructor(private github: GithubService) {}
 
+  /**
+   * Parse a GitHub repo URL to extract owner and repo name
+  */
   parseGithubUrl(url: string): { owner: string; repo: string } | null {
     try {
       // Remove trailing .git if present
@@ -58,6 +60,7 @@ export class App {
 
       return { owner, repo };
     } catch (err) {
+      console.log('Error parsing URL:', err);
       return null; // invalid URL
     }
   }
@@ -97,7 +100,6 @@ export class App {
   checkActivity() {
     this.github.hasRecentCommits(this.owner, this.repo).subscribe((exists) => {
       this.hasRecent = exists;
-      console.log('Recent commits:', exists);
     });
   }
 

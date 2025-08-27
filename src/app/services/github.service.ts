@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map, catchError, of } from 'rxjs';
 import { environment } from '../environments/environment';
+import { GithubUser } from '../models/github-user'; 
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ export class GithubService {
   private apiUrl = 'https://api.github.com';
   private token = environment.githubToken;
 
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
+  //constructor(private http: HttpClient) {}
 
   private getHeaders(): { headers: HttpHeaders } {
     return {
@@ -21,13 +24,13 @@ export class GithubService {
   }
 
   // Example: get a user’s public profile
-  getUser(username: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/users/${username}`, this.getHeaders());
+  getUser(username: string): Observable<GithubUser> {
+    return this.http.get<GithubUser>(`${this.apiUrl}/users/${username}`, this.getHeaders());
   }
 
   // Example: get repos for a user
-  getRepos(username: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/users/${username}/repos`, this.getHeaders());
+  getRepos(username: string): Observable<GithubUser> {
+    return this.http.get<GithubUser>(`${this.apiUrl}/users/${username}/repos`, this.getHeaders());
   }
 
   // Check if a file exists in a repo
@@ -57,14 +60,14 @@ export class GithubService {
   /**
    * Check if repo has commits since a given date
    */
-  hasRecentCommits(owner: string, repo: string, months: number = 6): Observable<boolean | null> {
+  hasRecentCommits(owner: string, repo: string, months = 6): Observable<boolean | null> {
     const sinceDate = new Date();
     sinceDate.setMonth(sinceDate.getMonth() - months);
     const isoDate = sinceDate.toISOString();
 
     const url = `${this.apiUrl}/repos/${owner}/${repo}/commits?since=${isoDate}&per_page=1`;
     
-    return this.http.get<any[]>(url, this.getHeaders()).pipe(
+    return this.http.get<unknown[]>(url, this.getHeaders()).pipe(
       map((commits) => commits.length > 0),
       catchError((err) => {
         if (err.status === 404) {
