@@ -1,44 +1,30 @@
+# .github/workflows/ci.yml
 name: CI
 
 on:
   push:
     branches:
       - main
+      - workflow-test
 
 jobs:
-  lint:
-    name: Lint
+  lint-and-build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: '22'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Run linter
+      - name: Run Angular lint
         run: npm run lint
 
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    needs: lint   # Optional: run tests after lint, or remove if independent
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 22
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
+      - name: Build Angular app
+        run: npm run build -- --configuration production

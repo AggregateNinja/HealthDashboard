@@ -36,6 +36,7 @@ export class GithubService {
     return this.http.get(url, this.getHeaders()).pipe(
       map(() => true),                 // If request succeeds, file exists
       catchError((err) => {
+        console.log('Error checking file:', err);
         if (err.status === 404) {
           return of(false);           // File not found
         }

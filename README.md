@@ -6,6 +6,7 @@ In order to keep things simple, a minimalist design was chosen, which uses Boots
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.0.
 
+TEST    
 
 ## Getting Started
 
@@ -55,7 +56,16 @@ The website can then be viewed in a web browser with url http://localhost:4200
 
 ## Git Hook
 
-A pre-commit hook is included the hooks directory to check that the package.json version has been updated before allowing a commit. 
+A pre-commit hook is included the hooks directory to check that the package.json version has been updated before allowing a commit.
+
+Copy the file from the HealthDashboard/hooks directory to the .git/hooks directory, and make it executable. 
+
+```bash
+cd /path/to/HealthDashboard/hooks
+cp pre-commit ./.git/hooks/pre-commit
+cd ../.git/hooks
+chmod +x pre-commit
+```
 
 ## CI Pipeline
 
