@@ -71,6 +71,8 @@ chmod +x pre-commit
 
 A Continuous Integration pipeline is used and can be found in .github/workflows/ci.yml. It triggers on push to the main branch, and fails if any step or job fails. 
 
+The linter uses ng lint for checking code quality, style consistency, and potential errors. 
+
 ## Development server
 
 To start a local development server, run:
