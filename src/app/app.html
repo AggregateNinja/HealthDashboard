@@ -33,22 +33,23 @@
 
   <div class="row justify-content-md-center mt-3">
     
-    <div class="col-lg-4 col-md-4 col-sm-12">
-      <ul *ngIf="fileStatuses">
-        <li *ngFor="let f of fileList">
+    <div class="col-lg-4 col-md-4 col-sm-12" *ngIf="fileStatuses">
+      <h4>Health Check Criteria: </h4>
+      <ul class="list-group">
+        <li *ngFor="let f of fileList" class="list-group-item">
           {{ fileStatuses[f] ? '✅ ' + f + ' Exists' : '❌ ' + f + 'Missing' }}
         </li>
-        <li *ngIf="hasRecent === true">✅ Repo has recent commits in the last 6 months</li>
-        <li *ngIf="hasRecent === false">❌ Repo has no commits in the last 6 months</li>
-        <li *ngIf="hasRecent === null">⚠️ Repository not found</li>
-        <li *ngIf="hasActions !== null">
+        <li *ngIf="hasRecent === true" class="list-group-item">✅ Repo has recent commits in the last 6 months</li>
+        <li *ngIf="hasRecent === false" class="list-group-item">❌ Repo has no commits in the last 6 months</li>
+        <li *ngIf="hasRecent === null" class="list-group-item">⚠️ Repository not found</li>
+        <li *ngIf="hasActions !== null" class="list-group-item">
           {{ hasActions ? '✅ Repository uses GitHub Actions' : '❌ Repository does not use GitHub Actions' }}
         </li>
       </ul>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-12">
-      <div id="score" *ngIf="displayScore">
-        <h4>Your Repository Health Score is:</h4>
+    <div class="col-lg-4 col-md-4 col-sm-12" *ngIf="displayScore">
+      <h4>Repository Health Score:</h4>
+      <div id="score">
         <h1 [ngClass]="{
           'text-danger': score <= 2,
           'text-warning': score > 2 && score < 4,
@@ -71,7 +72,30 @@
         <small>{{ score | number:'1.0-1' }}/{{ maxScore }}</small>
       </div>
     </div>
-  </div>  
+  </div>
+
+  <div class="row justify-content-md-center mt-3">    
+    <div *ngIf="user" class="col-lg-4 col-md-4 col-sm-12">
+      <h4>User Information: </h4>
+      <ul class="list-group">
+        <li class="list-group-item">
+          Username: {{ user.name }}
+        </li>
+        <li class="list-group-item">
+          Location: {{ user.location }}
+        </li>
+        <li class="list-group-item">
+          Public Repos: {{ user.public_repos }}
+        </li>
+        <li class="list-group-item">
+          Date Joined: {{ user.created_at }}
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="user" class="col-lg-4 col-md-4 col-sm-12">
+      <img src="{{ user.avatar_url }}" alt="Avatar" width="200" height="200">
+    </div>
+  </div>
 </div>
 <footer class="footer mt-auto text-center py-3">
   <span class="text-muted">Powered by <a href="https://github.com/AggregateNinja/HealthDashboard" target="_blank">Edward Bossmeyer, Inc.</a>  &copy; {{currYear}} </span>

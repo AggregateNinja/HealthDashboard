@@ -82,7 +82,7 @@ export class App {
     this.owner = ownerRepo.owner;
     this.repo = ownerRepo.repo;
 
-    //this.fetchUser();
+    this.fetchUser();
     this.checkFiles();
     this.checkActivity();
     this.checkActions();
@@ -93,7 +93,11 @@ export class App {
    */
   fetchUser() {
     this.github.getUser(this.owner).subscribe((data) => {
-      this.user = data;
+      console.log(data);
+      if (data != null) {
+        this.user = data;
+      }
+      
     });
   }
 
