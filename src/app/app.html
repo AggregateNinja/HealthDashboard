@@ -92,12 +92,12 @@
           </div>
         </div>
         <small [ngClass]="{
-                'ml-0p': score == null || score == 0,
-                'ml-20p': score == 1,
-                'ml-40p': score == 2,
-                'ml-60p': score == 3,
-                'ml-80p': score == 4,
-                'ml-100p': score == 5,
+                'ml-0p': score === null || score === 0,
+                'ml-20p': score === 1,
+                'ml-40p': score === 2,
+                'ml-60p': score === 3,
+                'ml-80p': score === 4,
+                'ml-100p': score === 5,
               }">{{ score | number:'1.0-1' }}/{{ maxScore }}</small>
       </div>
     </div>
