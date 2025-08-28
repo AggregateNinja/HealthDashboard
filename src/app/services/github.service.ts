@@ -11,9 +11,7 @@ export class GithubService {
   private apiUrl = 'https://api.github.com';
   private token = environment.githubToken;
 
-  private http = inject(HttpClient);
-
-  //constructor(private http: HttpClient) {}
+  private http = inject(HttpClient); //constructor(private http: HttpClient) {}
 
   private getHeaders(): { headers: HttpHeaders } {
     return {
@@ -23,17 +21,31 @@ export class GithubService {
     };
   }
 
-  // Example: get a user’s public profile
+  /**
+   * Get user profile data
+   * @param username GitHub username
+   * @returns 
+   */
   getUser(username: string): Observable<GithubUser> {
     return this.http.get<GithubUser>(`${this.apiUrl}/users/${username}`, this.getHeaders());
   }
 
-  // Example: get repos for a user
+  /**
+   * Get repositories for a user
+   * @param username GitHub username
+   * @returns 
+   */
   getRepos(username: string): Observable<GithubUser> {
     return this.http.get<GithubUser>(`${this.apiUrl}/users/${username}/repos`, this.getHeaders());
   }
 
-  // Check if a file exists in a repo
+  /**
+   * Check if a file exists in a repo
+   * @param owner 
+   * @param repo 
+   * @param path 
+   * @returns 
+   */
   fileExists(owner: string, repo: string, path: string): Observable<boolean> {
     const url = `${this.apiUrl}/repos/${owner}/${repo}/contents/${path}`;
     return this.http.get(url, this.getHeaders()).pipe(
@@ -48,7 +60,13 @@ export class GithubService {
     );
   }
 
-  // Example: check multiple files
+  /**
+   * Get existence of multiple files in a repo
+   * @param owner 
+   * @param repo 
+   * @param files 
+   * @returns 
+   */
   checkRepoFiles(owner: string, repo: string, files: string[]) {
     const results: Record<string, Observable<boolean>> = {};
     files.forEach((file) => {
@@ -59,6 +77,10 @@ export class GithubService {
 
   /**
    * Check if repo has commits since a given date
+   * @param owner 
+   * @param repo 
+   * @param months Number of months to look back (default 6)
+   * @returns Observable<boolean | null>  
    */
   hasRecentCommits(owner: string, repo: string, months = 6): Observable<boolean | null> {
     const sinceDate = new Date();
@@ -81,6 +103,10 @@ export class GithubService {
 
   /**
    * Check if a path exists in a repository
+   * @param owner 
+   * @param repo
+   * @param path 
+   * @returns Observable<boolean>
    */
   pathExists(owner: string, repo: string, path: string): Observable<boolean> {
     const url = `${this.apiUrl}/repos/${owner}/${repo}/contents/${path}`;
@@ -98,6 +124,9 @@ export class GithubService {
 
   /**
    * Check if repository uses GitHub Actions
+   * @param owner 
+   * @param repo  
+   * @return Observable<boolean>
    */
   usesGithubActions(owner: string, repo: string): Observable<boolean> {
     return this.pathExists(owner, repo, '.github/workflows');

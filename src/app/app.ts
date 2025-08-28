@@ -1,26 +1,23 @@
 import { Component, signal, inject } from '@angular/core';
-//import { RouterOutlet } from '@angular/router';
 import { GithubService } from './services/github.service';
 import { FormsModule } from '@angular/forms';
-//import { JsonPipe } from '@angular/common';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgFor, DecimalPipe, NgClass } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { GithubUser } from './models/github-user'; 
 
 @Component({
   selector: 'app-root',
   imports: [
-    //RouterOutlet
     FormsModule,
-    //JsonPipe,
     NgIf,
-    NgFor
+    NgFor,
+    DecimalPipe,
+    NgClass
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  
   
   protected readonly title = signal('health-dashboard');
   githubUrl = 'https://api.github.com/repos/AggregateNinja/HealthDashboard';
@@ -31,11 +28,14 @@ export class App {
   fileStatuses: Record<string, boolean> | null = null;
   hasRecent: boolean | null = null;
   hasActions: boolean | null = null;
+  currYear = new Date().getFullYear();
+  score = 0;
+  maxScore = 5;
+  displayScore = false;
+  percentScore = '';
 
-  private readonly github = inject(GithubService);
-
-  //constructor(private github: GithubService) {}
-
+  private readonly github = inject(GithubService); //constructor(private github: GithubService) {}
+  
   /**
    * Parse a GitHub repo URL to extract owner and repo name
   */
@@ -65,7 +65,12 @@ export class App {
     }
   }
 
+  /**
+   * 
+   * @returns Fetch data and update score based on repo health
+   */
   fetchUserData() {
+    this.score = 0;
 
     const ownerRepo = this.parseGithubUrl(this.githubUrl);
     
@@ -83,29 +88,62 @@ export class App {
     this.checkActions();
   }
 
+  /**
+   * Fetch GitHub user profile data. Currently not used.
+   */
   fetchUser() {
     this.github.getUser(this.owner).subscribe((data) => {
       this.user = data;
     });
   }
 
+  /**
+   * Check for key files in the repo (LICENSE, .gitignore, README.md)
+   */
   checkFiles() {
     const observables = this.github.checkRepoFiles(this.owner, this.repo, this.fileList);
     // forkJoin waits for all observables to complete
     forkJoin(observables).subscribe((results) => {
       this.fileStatuses = results;
+      if (this.fileStatuses != null) {
+        if (this.fileStatuses['LICENSE'] == true) {
+          this.score += 1;
+        }
+        if (this.fileStatuses['.gitignore'] == true) {
+          this.score += 1;
+        }
+        if (this.fileStatuses['README.md'] == true) {
+          this.score += 1;
+        }
+      }
     });
+    
+    
+    
   }
 
+  /**
+   * Check if repo has recent commits (default: last 6 months)
+   */
   checkActivity() {
     this.github.hasRecentCommits(this.owner, this.repo).subscribe((exists) => {
+      if (exists !== null && exists) {
+        this.score += 1;
+      }
       this.hasRecent = exists;
     });
   }
 
+  /**
+   * Check if repo uses GitHub Actions
+   */
   checkActions() {
     this.github.usesGithubActions(this.owner, this.repo).subscribe((exists) => {
+      if (exists !== null && exists) {
+        this.score += 1;
+      }
       this.hasActions = exists;
+      this.displayScore = true;
     });
   }
   

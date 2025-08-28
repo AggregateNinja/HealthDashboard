@@ -1,8 +1,15 @@
-.col-4 {
-    overflow-x: hidden;
+:host {
+    /* Styles for pushing the footer to the bottom */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-#githubUrl {
-    width: 100%;
-    box-sizing: border-box;
+nav a {
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
 }

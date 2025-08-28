@@ -1,22 +1,39 @@
 
 
+<nav class="navbar bg-success" data-bs-theme="light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://github.com/AggregateNinja/HealthDashboard" target="_blank">GitHub Repository Health Checker</a>
+  </div>
+</nav>
+<div class="container mx-auto mt-3">
+  <h3 class="text-center mb-3">Enter the URL for a GitHub repository to check its health rating</h3>
 
-<div class="container mx-auto">
-  <h1 class="text-center">GitHub Repository Health Checker</h1>
-
-  <div class="row">    
-    <div class="col-6">
-      <label for="githubUrl">GitHub Repository URL:</label>
-      <input [(ngModel)]="githubUrl" id="githubUrl" name="githubUrl" placeholder="GitHub URL" />
-
+  <div class="row g-2 align-items-center">
+    <div class="col-12 col-md-8">
+      <div class="input-group">
+        <span class="input-group-text">GitHub URL:</span>
+        <input [(ngModel)]="githubUrl"
+              id="githubUrl"
+              name="githubUrl"
+              placeholder="GitHub URL"
+              type="text"
+              class="form-control border-success"
+              aria-label="GitHub URL">
+      </div>
     </div>
-    <div class="col-6">
-      <button (click)="fetchUserData()">Check Files</button>
+
+    <div class="col-12 col-md-4">
+      <button (click)="fetchUserData()"
+              type="button"
+              class="btn btn-success w-100">
+        Check Repo
+      </button>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-4">
+  <div class="row justify-content-md-center mt-3">
+    
+    <div class="col-lg-4 col-md-4 col-sm-12">
       <ul *ngIf="fileStatuses">
         <li *ngFor="let f of fileList">
           {{ fileStatuses[f] ? '✅ ' + f + ' Exists' : '❌ ' + f + 'Missing' }}
@@ -29,11 +46,33 @@
         </li>
       </ul>
     </div>
-    <div class="col-4">
-      
+    <div class="col-lg-4 col-md-4 col-sm-12">
+      <div id="score" *ngIf="displayScore">
+        <h4>Your Repository Health Score is:</h4>
+        <h1 [ngClass]="{
+          'text-danger': score <= 2,
+          'text-warning': score > 2 && score < 4,
+          'text-success': score >= 4
+        }">{{ (score * 100 / maxScore) | number:'1.0-0' }}%</h1>
+
+        <div class="progress" style="height: 10px;">
+          <div class="progress-bar bg-success"
+              [ngClass]="{
+                'progress-bar bg-danger': score <= 2,
+                'progress-bar bg-warning': score > 2 && score < 4,
+                'progress-bar bg-success': score >= 4
+              }"
+              role="progressbar"
+              [style.width.%]="score * 100 / maxScore"
+              [attr.aria-valuenow]="score * 100 / maxScore"
+              aria-valuemin="0" aria-valuemax="100">
+          </div>
+        </div>
+        <small>{{ score | number:'1.0-1' }}/{{ maxScore }}</small>
+      </div>
     </div>
-    <div class="col-4">
-      
-    </div>
-  </div>
+  </div>  
 </div>
+<footer class="footer mt-auto text-center py-3">
+  <span class="text-muted">Powered by <a href="https://github.com/AggregateNinja/HealthDashboard" target="_blank">Edward Bossmeyer, Inc.</a>  &copy; {{currYear}} </span>
+</footer>
