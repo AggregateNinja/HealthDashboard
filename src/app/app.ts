@@ -1,7 +1,7 @@
 import { Component, signal, inject } from '@angular/core';
 import { GithubService } from './services/github.service';
 import { FormsModule } from '@angular/forms';
-import { NgIf, NgFor, DecimalPipe, NgClass } from '@angular/common';
+import { NgIf, NgFor, DecimalPipe, NgClass, DatePipe } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { GithubUser } from './models/github-user'; 
 
@@ -12,6 +12,7 @@ import { GithubUser } from './models/github-user';
     NgIf,
     NgFor,
     DecimalPipe,
+    DatePipe,
     NgClass
   ],
   templateUrl: './app.html',
@@ -20,6 +21,10 @@ import { GithubUser } from './models/github-user';
 export class App {
   
   protected readonly title = signal('health-dashboard');
+
+  /*
+  score 3/5 - https://api.github.com/repos/github/scientist
+  */
   githubUrl = 'https://api.github.com/repos/AggregateNinja/HealthDashboard';
   owner = 'AggregateNinja';
   repo = 'HealthDashboard';  
@@ -86,6 +91,8 @@ export class App {
     this.checkFiles();
     this.checkActivity();
     this.checkActions();
+
+    
   }
 
   /**

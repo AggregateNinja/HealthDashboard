@@ -13,3 +13,10 @@ ul {
     list-style-type: none;
     padding: 0;
 }
+
+.ml-0p { margin-left: 0; }
+.ml-20p { margin-left: 20%; }
+.ml-40p { margin-left: 40%; }
+.ml-60p { margin-left: 60%; }
+.ml-80p { margin-left: 80%; }
+.ml-100p { margin-left: 100%; }
