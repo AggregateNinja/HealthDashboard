@@ -48,6 +48,12 @@ docker-compose build
 docker-compose up
 ```
 
+If you get an error stating that the container is already in use, run this instead:
+
+```bash
+docker-compose up --force-recreate
+```
+
 The website can then be viewed in a web browser with url http://localhost:4200
 
 ## Git Hook
