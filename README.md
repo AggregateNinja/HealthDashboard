@@ -75,7 +75,7 @@ Add to package.json:
 "scripts": {
     ...
     "lint": "ng lint",
-    "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage",
   },
 ...
 ```
