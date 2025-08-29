@@ -22,7 +22,7 @@ import { GithubUser } from './models/github-user';
 })
 export class App {
   
-  protected readonly title = signal('health-dashboard');
+  protected readonly title = signal('GitHub Repository Health Checker');
 
   /*
   score 3/5 - https://api.github.com/repos/github/scientist
@@ -44,6 +44,10 @@ export class App {
 
   private readonly github = inject(GithubService); //constructor(private github: GithubService) {}
   
+  /**
+   * Export the current view as a PDF
+   * Commented out because it causes ng lint to fail
+   */
   // async exportAsPdf() {
   //     const el = this.pdfSource.nativeElement as HTMLElement;
 
