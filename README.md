@@ -69,6 +69,16 @@ A Continuous Integration pipeline is used and can be found in .github/workflows/
 
 The linter uses ng lint for checking code quality, style consistency, and potential errors. 
 
+Add to package.json
+```bash
+...
+"scripts": {
+    ...
+    "lint": "ng lint"
+  },
+...
+```
+
 ## Development server
 
 To start a local development server, run:
