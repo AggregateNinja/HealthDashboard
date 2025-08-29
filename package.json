@@ -1,6 +1,6 @@
 {
   "name": "health-dashboard",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -32,6 +32,8 @@
     "@ng-bootstrap/ng-bootstrap": "^19.0.1",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.6",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
