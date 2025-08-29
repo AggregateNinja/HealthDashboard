@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { NgIf, NgFor, DecimalPipe, NgClass, DatePipe } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { GithubUser } from './models/github-user'; 
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+// import { jsPDF } from 'jspdf';
+// import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-root',
