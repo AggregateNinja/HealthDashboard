@@ -44,44 +44,44 @@ export class App {
 
   private readonly github = inject(GithubService); //constructor(private github: GithubService) {}
   
-  async exportAsPdf() {
-      const el = this.pdfSource.nativeElement as HTMLElement;
+  // async exportAsPdf() {
+  //     const el = this.pdfSource.nativeElement as HTMLElement;
 
-      // High-DPI canvas for sharper text
-      const canvas = await html2canvas(el, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff'
-      });
+  //     // High-DPI canvas for sharper text
+  //     const canvas = await html2canvas(el, {
+  //       scale: 2,
+  //       useCORS: true,
+  //       backgroundColor: '#ffffff'
+  //     });
 
-      const pdf = new jsPDF('p', 'pt', 'a4');
-      const pageW = pdf.internal.pageSize.getWidth();
-      const pageH = pdf.internal.pageSize.getHeight() - 520;
+  //     const pdf = new jsPDF('p', 'pt', 'a4');
+  //     const pageW = pdf.internal.pageSize.getWidth();
+  //     const pageH = pdf.internal.pageSize.getHeight() - 520;
 
-      const imgW = pageW;
-      const imgH = canvas.height * (imgW / canvas.width);
+  //     const imgW = pageW;
+  //     const imgH = canvas.height * (imgW / canvas.width);
 
-      let y = 0;
-      while (y < imgH) {
-        const pageCanvas = document.createElement('canvas');
-        pageCanvas.width = canvas.width;
-        pageCanvas.height = Math.min(canvas.height, Math.floor(pageH * (canvas.width / pageW)));
-        const ctx = pageCanvas.getContext('2d')!;
-        ctx.drawImage(
-          canvas,
-          0, y * (canvas.width / pageW),
-          canvas.width, pageCanvas.height,
-          0, 0,
-          pageCanvas.width, pageCanvas.height
-        );
-        const pageImg = pageCanvas.toDataURL('image/png');
-        if (y > 0) pdf.addPage();
-        pdf.addImage(pageImg, 'PNG', 0, 0, pageW, pageH);
-        y += pageCanvas.height * (pageW / canvas.width);
-      }
+  //     let y = 0;
+  //     while (y < imgH) {
+  //       const pageCanvas = document.createElement('canvas');
+  //       pageCanvas.width = canvas.width;
+  //       pageCanvas.height = Math.min(canvas.height, Math.floor(pageH * (canvas.width / pageW)));
+  //       const ctx = pageCanvas.getContext('2d')!;
+  //       ctx.drawImage(
+  //         canvas,
+  //         0, y * (canvas.width / pageW),
+  //         canvas.width, pageCanvas.height,
+  //         0, 0,
+  //         pageCanvas.width, pageCanvas.height
+  //       );
+  //       const pageImg = pageCanvas.toDataURL('image/png');
+  //       if (y > 0) pdf.addPage();
+  //       pdf.addImage(pageImg, 'PNG', 0, 0, pageW, pageH);
+  //       y += pageCanvas.height * (pageW / canvas.width);
+  //     }
 
-      pdf.save('document.pdf');
-    }
+  //     pdf.save('document.pdf');
+  //   }
 
   /**
    * Parse a GitHub repo URL to extract owner and repo name
