@@ -54,7 +54,6 @@ export class App {
         backgroundColor: '#ffffff'
       });
 
-      const img = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'pt', 'a4');
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight() - 520;
