@@ -67,17 +67,39 @@ chmod +x pre-commit
 
 A Continuous Integration pipeline is used and can be found in .github/workflows/ci.yml. It triggers on push to the main branch, and fails if any step or job fails. 
 
-The linter uses ng lint for checking code quality, style consistency, and potential errors. 
+The linter uses ng lint for checking code quality, style consistency, and potential errors. test:ci tells the GitHub CI to run in Headless Chrome.
 
-Add to package.json
+Add to package.json:
 ```bash
 ...
 "scripts": {
     ...
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
   },
 ...
 ```
+
+In ci.yml
+This run the script defined in package.json:
+```bash
+- name: Run unit tests (headless)
+        run: npm run test:ci
+```
+
+This tells Karma to generate a coverage report and uploads it GitHub Actions as a downloadable artifact:
+```bash
+- name: Upload coverage (artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage
+```
+
+Running "npm test" uses Karma/Jasmine testing framework to test that GithubService call the expected URL, the app can be created, and it renders the title link. 
+
+
 
 ## Future Release
 
